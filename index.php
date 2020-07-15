@@ -2,6 +2,9 @@
 // Version
 define('VERSION', '3.0.3.3');
 
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+
 // Configuration
 if (is_file('config.php')) {
 	require_once('config.php');
