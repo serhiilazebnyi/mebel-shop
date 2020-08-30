@@ -7,15 +7,22 @@
         {% for product in products %}
         <tr>
           <td class="text-center">{% if product.thumb %} <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></a> {% endif %}</td>
-          <td class="text-left"><a href="{{ product.href }}">{{ product.name }}</a> {% if product.option %}
+          <td class="text-left"><a href="{{ product.href }}">{{ product.name }} {% if product.gift %}(подарок){% endif %}</a> {% if product.option %}
             {% for option in product.option %} <br />
             - <small>{{ option.name }} {{ option.value }}</small> {% endfor %}
             {% endif %}
             {% if product.recurring %} <br />
             - <small>{{ text_recurring }} {{ product.recurring }}</small> {% endif %}</td>
           <td class="text-right">x {{ product.quantity }}</td>
-          <td class="text-right">{{ product.total }}</td>
-          <td class="text-center"><button type="button" onclick="cart.remove('{{ product.cart_id }}');" title="{{ button_remove }}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button></td>
+          <td class="text-right">
+              {% if product.gift %}<span style="color:#999;text-decoration:line-through;">{{ product.full_price }}</span><br>{% endif %}
+              {{ product.total }}
+          </td>
+          <td class="text-center">
+              {% if product.gift == false %}
+              <button type="button" onclick="cart.remove('{{ product.cart_id }}');" title="{{ button_remove }}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button>
+              {% endif %}
+          </td>
         </tr>
         {% endfor %}
         {% for voucher in vouchers %}

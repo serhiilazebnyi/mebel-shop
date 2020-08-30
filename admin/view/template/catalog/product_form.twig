@@ -33,6 +33,7 @@
             <li><a href="#tab-recurring" data-toggle="tab">{{ tab_recurring }}</a></li>
             <li><a href="#tab-discount" data-toggle="tab">{{ tab_discount }}</a></li>
             <li><a href="#tab-special" data-toggle="tab">{{ tab_special }}</a></li>
+            <!-- <li><a href="#tab-attr-stickers" data-toggle="tab">{{ tab_attr_stickers }}</a></li> -->
             <li><a href="#tab-image" data-toggle="tab">{{ tab_image }}</a></li>
             <li><a href="#tab-reward" data-toggle="tab">{{ tab_reward }}</a></li>
             <li><a href="#tab-seo" data-toggle="tab">{{ tab_seo }}</a></li>
@@ -972,6 +973,52 @@
                 </table>
               </div>
             </div>
+            <!-- Attribute stickers start -->
+            <!-- {% set attrStickerRow = 0 %}
+            <div class="tab-pane" id="tab-attr-stickers">
+                <ul class="nav nav-tabs" id="attr-language">
+                  {% for language in languages %}
+                    <li><a href="#attr-language{{ language.language_id }}" data-toggle="tab"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}"/> {{ language.name }}</a></li>
+                  {% endfor %}
+                </ul>
+                <div class="tab-content">{% for language in languages %}
+                    <div class="tab-pane" id="attr-language{{ language.language_id }}">
+                        <div class="table-responsive">
+                          <table id="attr-stickers" class="table table-striped table-bordered table-hover">
+                            <thead>
+                              <tr>
+                                <td class="text-left">{{ attribute_stickers_name }}</td>
+                                <td class="text-left">{{ attribute_stickers_image }}</td>
+                                <td class="text-right">{{ attribute_stickers_text }}</td>
+                                <td class="text-right">{{ attribute_stickers_sort_order }}</td>
+                                <td class="text-left">{{ attribute_sticker_action }}</td>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for product_attr_sticker in product_attr_stickers[language.language_id] %}
+                                <tr id="attr-sticker-row{{ attrStickerRow }}">
+                                  <td class="text-right"><input type="text" name="product_attr_stickers[{{ language.language_id }}][{{ attrStickerRow }}][name]" value="{{ product_attr_sticker.name }}" placeholder="{{ attribute_stickers_name }}" class="form-control"/></td>
+                                  <td class="text-left"><a href="" id="attr-thumb-image{{ attrStickerRow }}{{ language.language_id }}" data-toggle="image" class="img-thumbnail"><img src="{{ product_attr_sticker.thumb }}" alt="" title="" data-placeholder="{{ placeholder }}"/></a> <input type="hidden" name="product_attr_stickers[{{language.language_id}}][{{ attrStickerRow }}][image]" value="{{ product_attr_sticker.image }}" id="attr-stickers-image{{ attrStickerRow }}{{language.language_id}}"/></td>
+                                  <td class="text-right"><input type="text" name="product_attr_stickers[{{ language.language_id }}][{{ attrStickerRow }}][text]" value="{{ product_attr_sticker.text }}" placeholder="{{ attribute_stickers_text }}" class="form-control"/></td>
+                                  <td class="text-right"><input type="text" name="product_attr_stickers[{{ language.language_id }}][{{ attrStickerRow }}][sort_order]" value="{{ product_attr_sticker.sort_order }}" placeholder="{{ attribute_stickers_sort_order }}" class="form-control"/></td>
+                                  <td class="text-left"><button type="button" onclick="$('#attr-sticker-row{{ attrStickerRow }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>
+                                </tr>
+                                {% set attrStickerRow = attrStickerRow + 1 %}
+                              {% endfor %}
+                            </tbody>
+
+                            <tfoot>
+                              <tr>
+                                <td colspan="4"></td>
+                                <td class="text-left"><button type="button" onclick="addAttrSticker({{ language.language_id }});" data-toggle="tooltip" title="{{ button_image_add }}" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>
+                    </div>
+                  {% endfor %}</div>
+            </div> -->
+            <!-- Attribute stickers end -->
             <div class="tab-pane" id="tab-image">
               <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover">
@@ -1563,6 +1610,25 @@
   <script type="text/javascript"><!--
   var image_row = {{ image_row }};
 
+  //Attribute Sticker
+  // var attrStickerRow = {{ attrStickerRow }};
+  //
+  // function addAttrSticker(languageId) {
+	//   html = '<tr id="attr-sticker-row' + attrStickerRow + '">';
+  //     html += '  <td class="text-right"><input type="text" name="product_attr_stickers[' + languageId + '][' + attrStickerRow + '][name]" value="{{ product_attr_sticker.name }}" placeholder="{{ attribute_stickers_name }}" class="form-control"/></td>';
+	//   html += '  <td class="text-left"><a href="" id="attr-thumb-image' + attrStickerRow + '"data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a><input type="hidden" name="product_attr_stickers[' + languageId + '][' + attrStickerRow + '][image]" value="" id="input-image' + attrStickerRow + '" /></td>';
+  //     html += '  <td class="text-right"><input type="text" name="product_attr_stickers[' + languageId + '][' + attrStickerRow + '][text]" value="{{ product_attr_sticker.text }}" placeholder="{{ attribute_stickers_text }}" class="form-control"/></td>';
+	//   html += '  <td class="text-right"><input type="text" name="product_attr_stickers[' + languageId + '][' + attrStickerRow + '][sort_order]" value="" placeholder="{{ attribute_stickers_sort_order }}" class="form-control" /></td>';
+	//   html += '  <td class="text-left"><button type="button" onclick="$(\'#attr-sticker-row' + attrStickerRow + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+	//   html += '</tr>';
+  //
+  //     var insert = '#attr-language' + languageId + ' tbody';
+  //
+	//   $(insert).append(html);
+  //
+	//   attrStickerRow++;
+  // }
+
   function addImage() {
 	  html = '<tr id="image-row' + image_row + '">';
 	  html += '  <td class="text-left"><a href="" id="thumb-image' + image_row + '"data-toggle="image" class="img-thumbnail"><img src="{{ placeholder }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a><input type="hidden" name="product_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" /></td>';
@@ -1626,6 +1692,9 @@
   <script type="text/javascript"><!--
   $('#language a:first').tab('show');
   $('#option a:first').tab('show');
+
+  //Attribute Sticker
+  // $('#attr-language a:first').tab('show');
   //--></script>
 </div>
-{{ footer }} 
+{{ footer }}

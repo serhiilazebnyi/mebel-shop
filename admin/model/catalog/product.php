@@ -57,7 +57,7 @@ class ModelCatalogProduct extends Model {
 				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_recurring` SET `product_id` = " . (int)$product_id . ", customer_group_id = " . (int)$recurring['customer_group_id'] . ", `recurring_id` = " . (int)$recurring['recurring_id']);
 			}
 		}
-		
+
 		if (isset($data['product_discount'])) {
 			foreach ($data['product_discount'] as $product_discount) {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "product_discount SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_discount['customer_group_id'] . "', quantity = '" . (int)$product_discount['quantity'] . "', priority = '" . (int)$product_discount['priority'] . "', price = '" . (float)$product_discount['price'] . "', date_start = '" . $this->db->escape($product_discount['date_start']) . "', date_end = '" . $this->db->escape($product_discount['date_end']) . "'");
@@ -69,6 +69,36 @@ class ModelCatalogProduct extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "product_special SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_special['customer_group_id'] . "', priority = '" . (int)$product_special['priority'] . "', price = '" . (float)$product_special['price'] . "', date_start = '" . $this->db->escape($product_special['date_start']) . "', date_end = '" . $this->db->escape($product_special['date_end']) . "'");
 			}
 		}
+
+        //Attribute Sticker
+        // if (isset($data['product_attr_stickers'])) {
+		// 	foreach ($data['product_attr_stickers'] as $languageId => $productAttrSticker) {
+		// 		$this->db->query("INSERT INTO " . DB_PREFIX . "mm_attribute_sticker SET product_id = '" . (int)$product_id . "', language_id = '" . (int)$languageId . "'");
+        //         $attrStickerSet = $this->db->query("SELECT `id` FROM " . DB_PREFIX . "mm_attribute_sticker WHERE product_id = '" . (int)$product_id . "' AND language_id = '" . (int)$languageId . "'")->row;
+        //
+        //         foreach ($productAttrSticker as $stickerData) {
+        //             if (empty($stickerData['image'])) {
+        //                 $image = null;
+        //             } else {
+        //                 $image = $this->db->escape($stickerData['image']);
+        //             }
+        //
+        //             if (empty($stickerData['sort_order'])) {
+        //                 $sort_order = 0;
+        //             } else {
+        //                 $sort_order = $this->db->escape($stickerData['sort_order']);
+        //             }
+        //
+        //             $this->db->query("INSERT INTO " . DB_PREFIX . "mm_product_to_sticker SET
+        //                 attribute_sticker_id = '" . (int)$attrStickerSet['id'] . "',
+        //                 name = '" . $this->db->escape($stickerData['name']) . "',
+        //                 image = '" . $image . "',
+        //                 text = '" . $this->db->escape($stickerData['text']) . "',
+        //                 sort_order = '" . $sort_order . "'"
+        //             );
+        //         }
+		// 	}
+		// }
 
 		if (isset($data['product_image'])) {
 			foreach ($data['product_image'] as $product_image) {
@@ -110,7 +140,7 @@ class ModelCatalogProduct extends Model {
 				}
 			}
 		}
-		
+
 		// SEO URL
 		if (isset($data['product_seo_url'])) {
 			foreach ($data['product_seo_url'] as $store_id => $language) {
@@ -121,7 +151,7 @@ class ModelCatalogProduct extends Model {
 				}
 			}
 		}
-		
+
 		if (isset($data['product_layout'])) {
 			foreach ($data['product_layout'] as $store_id => $layout_id) {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "product_to_layout SET product_id = '" . (int)$product_id . "', store_id = '" . (int)$store_id . "', layout_id = '" . (int)$layout_id . "'");
@@ -198,7 +228,7 @@ class ModelCatalogProduct extends Model {
 				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_recurring` SET `product_id` = " . (int)$product_id . ", customer_group_id = " . (int)$product_recurring['customer_group_id'] . ", `recurring_id` = " . (int)$product_recurring['recurring_id']);
 			}
 		}
-		
+
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_discount WHERE product_id = '" . (int)$product_id . "'");
 
 		if (isset($data['product_discount'])) {
@@ -214,6 +244,46 @@ class ModelCatalogProduct extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "product_special SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$product_special['customer_group_id'] . "', priority = '" . (int)$product_special['priority'] . "', price = '" . (float)$product_special['price'] . "', date_start = '" . $this->db->escape($product_special['date_start']) . "', date_end = '" . $this->db->escape($product_special['date_end']) . "'");
 			}
 		}
+
+        //Attribute Sticker
+        // $attrStickerSets = $this->db->query("SELECT `id` FROM " . DB_PREFIX . "mm_attribute_sticker WHERE product_id = '" . (int)$product_id . "'")->rows;
+        //
+        // foreach ($attrStickerSets as $attrStickerSet) {
+        //     $this->db->query("DELETE FROM " . DB_PREFIX . "mm_product_to_sticker WHERE attribute_sticker_id = '" . (int)$attrStickerSet['id'] . "'");
+        // }
+        //
+        // $this->db->query("DELETE FROM " . DB_PREFIX . "mm_attribute_sticker WHERE product_id = '" . (int)$product_id . "'");
+        //
+		// if (isset($data['product_attr_stickers'])) {
+		// 	foreach ($data['product_attr_stickers'] as $languageId => $productAttrSticker) {
+        //
+		// 		$this->db->query("INSERT INTO " . DB_PREFIX . "mm_attribute_sticker SET product_id = '" . (int)$product_id . "', language_id = '" . (int)$languageId . "'");
+        //         $attrStickerSet = $this->db->query("SELECT `id` FROM " . DB_PREFIX . "mm_attribute_sticker WHERE product_id = '" . (int)$product_id . "' AND language_id = '" . (int)$languageId . "'")->row;
+        //
+        //         foreach ($productAttrSticker as $stickerData) {
+        //         var_dump($stickerData);
+        //             if (empty($stickerData['image'])) {
+        //                 $image = null;
+        //             } else {
+        //                 $image = $this->db->escape($stickerData['image']);
+        //             }
+        //
+        //             if (empty($stickerData['sort_order'])) {
+        //                 $sort_order = 0;
+        //             } else {
+        //                 $sort_order = $this->db->escape($stickerData['sort_order']);
+        //             }
+        //
+        //             $this->db->query("INSERT INTO " . DB_PREFIX . "mm_product_to_sticker SET
+        //                 attribute_sticker_id = '" . (int)$attrStickerSet['id'] . "',
+        //                 name = '" . $this->db->escape($stickerData['name']) . "',
+        //                 image = '" . $image . "',
+        //                 text = '" . $this->db->escape($stickerData['text']) . "',
+        //                 sort_order = '" . $sort_order . "'"
+        //             );
+        //         }
+		// 	}
+		// }
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_image WHERE product_id = '" . (int)$product_id . "'");
 
@@ -268,10 +338,10 @@ class ModelCatalogProduct extends Model {
 				}
 			}
 		}
-		
+
 		// SEO URL
 		$this->db->query("DELETE FROM " . DB_PREFIX . "seo_url WHERE query = 'product_id=" . (int)$product_id . "'");
-		
+
 		if (isset($data['product_seo_url'])) {
 			foreach ($data['product_seo_url']as $store_id => $language) {
 				foreach ($language as $language_id => $keyword) {
@@ -281,7 +351,7 @@ class ModelCatalogProduct extends Model {
 				}
 			}
 		}
-		
+
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_to_layout WHERE product_id = '" . (int)$product_id . "'");
 
 		if (isset($data['product_layout'])) {
@@ -588,10 +658,10 @@ class ModelCatalogProduct extends Model {
 
 		return $product_store_data;
 	}
-	
+
 	public function getProductSeoUrls($product_id) {
 		$product_seo_url_data = array();
-		
+
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "seo_url WHERE query = 'product_id=" . (int)$product_id . "'");
 
 		foreach ($query->rows as $result) {
@@ -600,7 +670,7 @@ class ModelCatalogProduct extends Model {
 
 		return $product_seo_url_data;
 	}
-	
+
 	public function getProductLayouts($product_id) {
 		$product_layout_data = array();
 

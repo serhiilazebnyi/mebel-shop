@@ -251,6 +251,13 @@ class ControllerProductProduct extends Controller {
 			}
 
 			$this->load->model('tool/image');
+            //
+            // $gifts = $this->model_catalog_product->getProductGifts((int)$this->request->get['product_id']);
+            // if (!empty($gifts)) {
+            //     $data['has_gifts'] = $this->model_tool_image->resize('catalog/gift.jpg', 80, 64);
+            // } else {
+            //     $data['has_gifts'] = false;
+            // }
 
 			if ($product_info['image']) {
 				$data['popup'] = $this->model_tool_image->resize($product_info['image'], $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_width'), $this->config->get('theme_' . $this->config->get('config_theme') . '_image_popup_height'));
@@ -438,7 +445,7 @@ class ControllerProductProduct extends Controller {
 			$data['recurrings'] = $this->model_catalog_product->getProfiles($this->request->get['product_id']);
 
 			$this->model_catalog_product->updateViewed($this->request->get['product_id']);
-			
+
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');
@@ -622,7 +629,7 @@ class ControllerProductProduct extends Controller {
 		}
 
 		$product_info = $this->model_catalog_product->getProduct($product_id);
-		
+
 		$recurring_info = $this->model_catalog_product->getProfile($product_id, $recurring_id);
 
 		$json = array();

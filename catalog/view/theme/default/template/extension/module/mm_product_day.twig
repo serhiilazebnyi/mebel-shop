@@ -1,0 +1,92 @@
+<div class="col-sm-12">
+    <div class="col-sm-7">
+        <div class="tab-content">
+            {% set tab = 1 %}
+            {% for keys, category in products %}
+            <div class="tab-pane {% if tab == 1 %} active {% endif %}" id="tab-pd-{{ tab }}">
+                {% for product in category %}
+                <div class="product-layout col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="product-thumb transition">
+                    <div class="image"><a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" /></a></div>
+                    <div class="caption">
+                      <h4><a href="{{ product.href }}">{{ product.name }}</a></h4>
+                      <p>{{ product.description }}</p>
+                      {% if product.rating %}
+                      <div class="rating">
+                        {% for i in 5 %}
+                        {% if product.rating < i %}
+                        <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+                        {% else %}
+                        <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+                        {% endif %}
+                        {% endfor %}
+                      </div>
+                      {% endif %}
+                      {% if product.price %}
+                      <p class="price">
+                        {% if not product.special %}
+                        {{ product.price }}
+                        {% else %}
+                        <span class="price-new">{{ product.special }}</span> <span class="price-old">{{ product.price }}</span>
+                        {% endif %}
+                        {% if product.tax %}
+                        <span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+                        {% endif %}
+                      </p>
+                      {% endif %}
+                    </div>
+                    <div class="button-group">
+                      <button type="button" onclick="cart.add('{{ product.product_id }}');"><i class="fa fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md">{{ button_cart }}</span></button>
+                      <button type="button" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"><i class="fa fa-heart"></i></button>
+                      <button type="button" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"><i class="fa fa-exchange"></i></button>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% set tab = tab + 1 %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-sm-5">
+        <h3 id="product-day-header">Product of the Day</h3>
+        <p>{{ limited_entry }}</p>
+        <p>{{ just_today_entry }}</p>
+        <div style="font-size: 30px; color: red" id="product-day-timer"></div>
+        <ul class="nav flex-column">
+        {% set tab = 1 %}
+        {% for keys in products|keys %}
+          <li {% if tab == 1 %} class="active" {% endif %}><a href="#tab-pd-{{ tab }}" data-toggle="tab">{{ keys }}</a></li>
+        {% set tab = tab + 1 %}
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+<script>
+var today = new Date();
+var header = $("#product-day-header").html();
+$("#product-day-header").html(header + ' ' + today.toLocaleDateString().substring(0, 5));
+// Set the date we're counting down to
+var tomorrow = new Date().getTime() + 86400 * 1000;
+var countDownDate = new Date(new Date(tomorrow).setHours(0,0,0,0)).getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="demo"
+  $("#product-day-timer").html(days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ");
+}, 1000);
+</script>

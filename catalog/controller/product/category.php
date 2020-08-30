@@ -193,6 +193,15 @@ class ControllerProductCategory extends Controller {
 					$rating = false;
 				}
 
+
+
+                // $gifts = $this->model_catalog_product->getProductGifts($result['product_id']);
+                // if (!empty($gifts)) {
+                //     $gift_image = $this->model_tool_image->resize('catalog/gift_category.jpg', 75.32, 18);
+                // } else {
+                //     $gift_image = false;
+                // }
+
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
@@ -202,11 +211,11 @@ class ControllerProductCategory extends Controller {
 					'special'     => $special,
 					'tax'         => $tax,
 					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
+                    // 'has_gifts'   => $gift_image ?: null,
 					'rating'      => $result['rating'],
 					'href'        => $this->url->link('product/product', 'path=' . $this->request->get['path'] . '&product_id=' . $result['product_id'] . $url)
 				);
 			}
-
 			$url = '';
 
 			if (isset($this->request->get['filter'])) {
@@ -337,7 +346,7 @@ class ControllerProductCategory extends Controller {
 			} else {
 				$this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page='. $page), 'canonical');
 			}
-			
+
 			if ($page > 1) {
 			    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . (($page - 2) ? '&page='. ($page - 1) : '')), 'prev');
 			}

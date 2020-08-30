@@ -1,0 +1,78 @@
+<div class="panel panel-default">
+  <div class="panel-heading">{{ heading_title }}</div>
+  <div class="list-group"> 
+  {% for prostofilter_group in prostofilter_groups %} <a class="list-group-item">{{ prostofilter_group.name }}</a>
+    <div class="list-group-item">
+      <div id="prostofilter-group{{ prostofilter_group.prostofilter_group_id }}">
+		
+			{% set kolvo = 0 %}
+			
+			{% for prostofilter in prostofilter_group.prostofilter %}
+				{% if prostofilter_group.prostofilter_group_id == 'price' %}
+					{% set minprice = prostofilter.name -1 %}
+					{% set maxprice = prostofilter.prostofilter_id + 1 %}
+					{% for priceprostofilter in prostofilter_category %}
+						{% if priceprostofilter|slice(0,8) == 'minprice' %}
+							{% set minprice = priceprostofilter|slice(8,10)|replace({'[':'',']':''}) %}
+						{% endif %}
+						{% if priceprostofilter|slice(0,8) == 'maxprice' %}
+							{% set maxprice = priceprostofilter|slice(8,10)|replace({'[':'',']':''}) %}
+						{% endif %}
+					{% endfor %}
+					<input id="ex2" type="text" class="span2" value="" data-slider-min="{{ prostofilter.name -1 }}" data-slider-max="{{ prostofilter.prostofilter_id + 1 }}" data-slider-step="5" data-slider-value="[{{ minprice }},{{ maxprice }}]"/>
+				{% else %}
+					{% set kolvo = kolvo + 1 %}
+					{% if kolvo == 7 %}
+						<a href="#colfil{{ prostofilter_group.prostofilter_group_id }}" data-toggle="collapse">Показать еще</a>
+						<div id="colfil{{ prostofilter_group.prostofilter_group_id }}" class="collapse">
+					{% endif %}
+					<div class="checkbox">
+					  <label for="{{ prostofilter.prostofilter_id }}">
+					  {% if prostofilter.prostofilter_id in prostofilter_category %}
+						<input id="{{ prostofilter.prostofilter_id }}" class="red" type="checkbox" name="prostofilter[]" value="{{ prostofilter.prostofilter_id }}" checked="checked" />
+						{{ prostofilter.name }}
+						{% else %}
+						<input id="{{ prostofilter.prostofilter_id }}" class="red" type="checkbox" name="prostofilter[]" value="{{ prostofilter.prostofilter_id }}" />
+						{{ prostofilter.name }}
+						{% endif %}</label>
+					</div>
+				{% endif %}
+			{% endfor %}</div>
+			{% if kolvo > 6 %}
+				</div>
+			
+		{% endif %}
+    </div>
+    {% endfor %}</div>
+  <div class="panel-footer text-right">
+    <button type="button" id="button-prostofilter" class="btn btn-primary">{{ button_filter }}</button>
+  </div>
+</div>
+<script type="text/javascript"><!--
+$( document ).ready(function() {
+	$('input[name^=\'prostofilter\']:checked').each(function(element) {
+		$movingel = $(this).parent().parent();
+		if ($movingel.parent().parent().hasClass('collapse')) {
+			$movingel.prependTo($movingel.parent().parent().parent());
+		}
+		else {
+			$movingel.prependTo($movingel.parent().parent());
+		}
+	});
+});
+$('#button-prostofilter').on('click', function() {
+	prostofilter = [];
+
+	$('input[name^=\'prostofilter\']:checked').each(function(element) {
+		prostofilter.push(this.value);
+	});
+	if (document.getElementById('ex2') != null) {
+		prostofilter.push('minprice[' + slider.getValue()[0] + ']');
+		prostofilter.push('maxprice[' + slider.getValue()[1] + ']');
+	}
+	location = '{{ action }}&filter=' + prostofilter.join(',');
+});
+if (document.getElementById('ex2') != null) {
+	var slider = new Slider('#ex2', {});
+}
+//--></script> 

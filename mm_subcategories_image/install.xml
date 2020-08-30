@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>Изображения подкатегорий</name>
+	<code>mm_subcategory_image</code>
+	<version>1.0</version>
+	<author>Serhii Lazebnyi</author>
+
+	<file path="catalog/controller/product/category.php">
+		<operation>
+			<search><![CDATA[$data['categories'][] = array(]]></search>
+			<add position="before"><![CDATA[
+                if ($result['image']) {
+					$image = $this->model_tool_image->resize($result['image'], 40, 40);
+				} else {
+					$image = $this->model_tool_image->resize('catalog/placeholders/placeholder.jpg', 40, 40);
+				}
+]]></add>
+		</operation>
+        <operation>
+			<search><![CDATA['href' => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '_' . $result['category_id'] . $url)]]></search>
+			<add position="after"><![CDATA[,
+            'image' => $image
+]]></add>
+		</operation>
+	</file>
+    <file path="catalog/view/theme/default/template/product/category.twig">
+		<operation>
+			<search><![CDATA[<a href="{{ category.href }}">]]></search>
+			<add position="before"><![CDATA[
+                <img src="{{ category.image }}" />
+]]></add>
+		</operation>
+	</file>
+</modification>
